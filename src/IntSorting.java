@@ -11,7 +11,7 @@ import java.util.*;
 public class IntSorting {
 
    /** maximal array length */
-   static final int MAX_SIZE = 192;
+   static final int MAX_SIZE = 2560;
 
    /** number of competition rounds */
    static final int NUMBER_OF_ROUNDS = 4;
@@ -132,36 +132,44 @@ public class IntSorting {
 
             if (a[i] > a[j]) {
                left = j + 1;
-
             } else if (a[i] < a[j]) {
                right = j - 1;
                if (left > right && j != 0) {
                   left = right;
                }
             } else {
-               //j = i;
                break;
             }
 
          }
          //System.out.println(j);
          if (i != j) {
-            int a_old[] = a.clone();
-            System.arraycopy(a, 0, a_old, 0, a.length -1 );
+            //int a_old[] = a.clone();
+            //System.arraycopy(a, 0, a_old, 0, a.length -1 );
             //System.out.println(Arrays.toString(a_old));
-            int sortee = a[i];
-            if (j > i) {
-               System.arraycopy(a, i + 1, a, i, j-i); //move down/left - length = mitu itemit, srcPos - kus kohast võtma hakata, desPos - kuhu
-               if (i != 0 ) {i--;} // to recheck the value of the itme that was pushed on that index
-            } else {
-               System.arraycopy(a, j, a, j + 1, i-j); // move up/right
-               if (sortee > a[j]) {
+            if (a[i] == a[j] && j - i == 1) {
+               while (a[i] == a[j]){
+                  i++;
                   j++;
                }
-            }
 
-            a[j] = sortee;
-            //System.out.println(Arrays.toString(a));
+
+            } else {
+               int sortee = a[i];
+               if (j > i) {
+                  System.arraycopy(a, i + 1, a, i, j - i); //move down/left - length = mitu itemit, srcPos - kus kohast võtma hakata, desPos - kuhu
+                  if (i != 0) {
+                     i--;
+                  } // to recheck the value of the item that was pushed on that index
+               } else {
+                  System.arraycopy(a, j, a, j + 1, i - j); // move up/right
+                  if (sortee > a[j]) {
+                     j++;
+                  }
+               }
+               a[j] = sortee;
+               //System.out.println(Arrays.toString(a));
+            }
          }
       }
       //System.arraycopy();
@@ -259,9 +267,12 @@ public class IntSorting {
       if (a.length < 2)
          return;
       for (int i = 0; i < a.length - 1; i++) {
-         if (a[i] > a[i + 1])
+         if (a[i] > a[i + 1]) {
+            System.out.println(Arrays.toString(a));
             throw new IllegalArgumentException(
                     "array not ordered: " + "a[" + i + "]=" + a[i] + " a[" + (i + 1) + "]=" + a[i + 1]);
+
+         }
       }
    }
 
