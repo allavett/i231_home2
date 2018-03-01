@@ -11,7 +11,7 @@ import java.util.*;
 public class IntSorting {
 
    /** maximal array length */
-   static final int MAX_SIZE = 512000;
+   static final int MAX_SIZE = 16;//512000;
 
    /** number of competition rounds */
    static final int NUMBER_OF_ROUNDS = 4;
@@ -103,12 +103,60 @@ public class IntSorting {
 
    /**
     * Binary insertion sort.
+    * Used materials:
+    * http://enos.itcollege.ee/~jpoial/algoritmid/searchsort.html
+    * Algoritmid Ja Andmestruktuurid J.Kiho Tartu 2003
+    * https://www.geeksforgeeks.org/binary-insertion-sort/
+    *
     *
     * @param a
     *           array to be sorted
     */
    public static void binaryInsertionSort(int[] a) {
       // TODO!!! Your method here!
+      int len = a.length - 1;
+
+
+      int i; // Item that is looking for it's place
+      int j = -1;
+      for (i = 0; i <= len; i++) {
+         int left = 0;
+         int right = len;
+         while (left <= right) {
+            int k = ((left + right) % 2) == 1 ? 1 : 0;
+            j = (left + right) / 2 + k;
+            // comparing item with itself is useless, move on with the search to the left
+            if (i == j && j > left) {
+               j--;
+            }
+
+            if (a[i] > a[j]) {
+               left = j + 1;
+            } else if (a[i] < a[j]) {
+               right = j - 1;
+            } else {
+               j = i;
+               break;
+            }
+
+         }
+         System.out.println(j);
+         if (i != j) {
+            int a_old[] = a.clone();
+            System.arraycopy(a, 0, a_old, 0, a.length -1 );
+            System.out.println(a_old);
+            int sortee = a[i];
+            if (j > i) {
+               System.arraycopy(a, i + 1, a, i, j-i); //move down/left - length = mitu itemit, srcPos - kus kohast võtma hakata, desPos - kuhu
+            } else {
+               System.arraycopy(a, j, a, j + 1, i-j); // move up/right
+            }
+
+            a[j] = sortee;
+            System.out.println(a);
+         }
+      }
+      //System.arraycopy();
    }
 
    /**
